@@ -1,0 +1,31 @@
+{
+  "name": "deno-vite",
+  "version": "1.0.0",
+  "exports": "./main.ts",
+  "desktop": {
+    "app": {
+      "name": "Deno Vite",
+      "identifier": "com.sanpyaelin.deno-vite",
+      "icons": {
+        "macos": "./icons/app.icns",
+        "windows": "./icons/app.ico",
+        "linux": "./icons/app.png"
+      },
+      "deepLinks": [
+        "spl-deno-vite"
+      ]
+    },
+    "backend": "cef",
+    "output": {
+      "macos": "./dist/DenoVite",
+      "windows": "./dist/DenoVite",
+      "linux": "./dist/deno-vite"
+    },
+    "release": {
+      "baseUrl": "https://releases.example.com/my-app"
+    },
+    "errorReporting": {
+      "url": "https://errors.example.com/report"
+    }
+  }
+}
