@@ -1,6 +1,6 @@
 {
   "name": "deno-vite",
-  "version": "1.0.0",
+  "version": "1.6.0",
   "exports": "./main.ts",
   "desktop": {
     "app": {
@@ -15,14 +15,14 @@
         "spl-deno-vite"
       ]
     },
-    "backend": "cef",
+    "backend": "webview",
     "output": {
-      "macos": "./dist/DenoVite",
-      "windows": "./dist/DenoVite",
-      "linux": "./dist/deno-vite"
+      "macos": "./out/DenoVite",
+      "windows": "./out/DenoVite",
+      "linux": "./out/deno-vite"
     },
     "release": {
-      "baseUrl": "https://releases.example.com/my-app"
+      "baseUrl": "https://raw.githubusercontent.com/spl-xyphatech/test-deno/updates"
     },
     "errorReporting": {
       "url": "https://errors.example.com/report"

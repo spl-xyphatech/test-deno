@@ -10,8 +10,8 @@
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
     "preview": "vite preview",
-    "desktop": "deno desktop .",
-    "desktop:run": "deno desktop . && open './dist/DenoVite.app'"
+    "desktop": "deno desktop --allow-net=raw.githubusercontent.com,127.0.0.1 --include dist --exclude node_modules --exclude-unused-npm main.ts",
+    "desktop:run": "npm run desktop && open './out/DenoVite.app'"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",

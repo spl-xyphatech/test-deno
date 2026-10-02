@@ -13,18 +13,33 @@ const { autoUpdate } = Deno as unknown as {
   }) => void
 }
 
+// Read by the UI via /api/update-status (autoUpdate has no UI of its own).
+const updateStatus = {
+  current: (Deno as unknown as { desktopVersion?: string }).desktopVersion ?? null,
+  readyVersion: null as string | null,
+  rolledBack: false,
+}
+
 autoUpdate?.({
-  interval: 60 * 60 * 1000,
+  interval: 1000,
   onUpdateReady(version) {
+    updateStatus.readyVersion = version
     console.log(`Update ${version} ready; will apply on next launch`)
   },
   onRollback(reason) {
+    updateStatus.rolledBack = true
     console.warn("Previous launch failed; rolled back:", reason)
   },
 })
 
 Deno.serve(async (req) => {
   const url = new URL(req.url)
+
+  if (url.pathname === "/api/update-status") {
+    return Response.json(updateStatus, {
+      headers: { "cache-control": "no-store" },
+    })
+  }
 
   let path = decodeURIComponent(url.pathname)
 
