@@ -34,6 +34,43 @@ npm run desktop:run   # build and open
 
 The app is about 66 MB. `node_modules` is excluded from the bundle on purpose.
 
+## Backend (Deno) and frontend (React)
+
+The backend runs inside the app. `Deno.serve()` in [main.ts](main.ts) serves the
+built React app and the API on one local port, so the UI just calls
+`/api/...` (same origin, no CORS).
+
+```
+server/routes.ts      route table + handleApi(req)   (add endpoints here)
+server/todos.repo.ts  data layer, in memory for now  (swap for Postgres later)
+server/http.ts        json/error/readJson helpers
+server/dev.ts         API-only server for `npm run dev` (port 8787)
+src/lib/api-client.ts axios instance, baseURL "/api"
+src/services/api/     axios calls, one file per resource  (todos.api.ts)
+src/services/query/   React Query keys + hooks            (todos.query.ts)
+src/types/            types shared by server and UI
+```
+
+Working example: the Todos page (`/todos`).
+
+Adding an endpoint:
+1. Add a `route("GET", "/api/things", ...)` in `server/routes.ts`.
+2. Add `src/services/api/things.api.ts` and `src/services/query/things.query.ts`
+   (copy the todos files).
+3. Use the hooks in a component.
+
+Development (two terminals, the UI needs the API running):
+
+```bash
+npm run dev:api   # Deno API on :8787, restarts on change
+npm run dev       # Vite; proxies /api to :8787
+```
+
+The compiled app only gets the permissions passed in `npm run desktop`
+(`--allow-net=...`). A backend that touches files, env vars or other hosts
+(e.g. Postgres) needs the matching `--allow-read`, `--allow-write`,
+`--allow-env`, or an extra `--allow-net` host added there.
+
 ## Auto-update
 
 Auto-update uses Deno's built-in `Deno.autoUpdate()` (macOS and Linux only,

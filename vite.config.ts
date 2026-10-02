@@ -14,6 +14,10 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  server: {
+    // API runs separately in dev: `npm run dev:api`
+    proxy: { "/api": "http://127.0.0.1:8787" },
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

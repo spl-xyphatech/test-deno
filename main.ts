@@ -1,3 +1,5 @@
+import { handleApi } from "./server/routes.ts"
+
 const dist = new URL("./dist/", import.meta.url)
 
 // Polls `<desktop.release.baseUrl>/latest.json` (see deno.json), stages a
@@ -15,7 +17,8 @@ const { autoUpdate } = Deno as unknown as {
 
 // Read by the UI via /api/update-status (autoUpdate has no UI of its own).
 const updateStatus = {
-  current: (Deno as unknown as { desktopVersion?: string }).desktopVersion ?? null,
+  current:
+    (Deno as unknown as { desktopVersion?: string }).desktopVersion ?? null,
   readyVersion: null as string | null,
   rolledBack: false,
 }
@@ -39,6 +42,10 @@ Deno.serve(async (req) => {
     return Response.json(updateStatus, {
       headers: { "cache-control": "no-store" },
     })
+  }
+
+  if (url.pathname.startsWith("/api/")) {
+    return handleApi(req)
   }
 
   let path = decodeURIComponent(url.pathname)

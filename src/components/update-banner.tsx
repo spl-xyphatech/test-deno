@@ -18,7 +18,8 @@ export function UpdateBanner() {
       try {
         const res = await fetch("/api/update-status", { cache: "no-store" })
         const type = res.headers.get("content-type") ?? ""
-        if (res.ok && type.includes("json") && !stop) setStatus(await res.json())
+        if (res.ok && type.includes("json") && !stop)
+          setStatus(await res.json())
       } catch {
         // not running inside the desktop app
       }
