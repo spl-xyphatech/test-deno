@@ -1,4 +1,9 @@
 {
-  "version": "1.5.0",
-  "patches": {}
+  "version": "1.5.1",
+  "patches": {
+    "1.5.0": {
+      "name": "patch-1.5.0-to-1.5.1.bin",
+      "sha256": "4c41112cee7cd7087be1ff84a41d7ce856486be24363755205ecb79004da449f"
+    }
+  }
 }
